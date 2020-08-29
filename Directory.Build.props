@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <LocalVersion>0.1.1-alpha</LocalVersion>
+        <LangVersion>latest</LangVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <Authors>Pier-Lionel Sgard</Authors>
+        <Company>Plsgd</Company>
+    </PropertyGroup>
+</Project>

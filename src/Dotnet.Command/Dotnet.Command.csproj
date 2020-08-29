@@ -12,5 +12,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>cmd</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageId>dotnet-cmd</PackageId>
+    <Version>0.1.1-alpha</Version>
+    <Title>Dotnet Command</Title>
+    <Description>A .NET Core global tool to call user-defined C# command to execute some operations through .NET CLI.</Description>
   </PropertyGroup>
 </Project>
