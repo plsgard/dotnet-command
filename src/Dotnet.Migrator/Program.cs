@@ -42,7 +42,7 @@ namespace Dotnet.Migrator
             rootCommand.AddArgument(commandArgument);
             rootCommand.AddOption(argumentAssemblyOptions);
 
-            rootCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Execute);
+            rootCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Execute);
 
             var migrationCommand = new CommandLine.Command("migration", "Apply or revert C# migration command.");
 
@@ -59,29 +59,29 @@ namespace Dotnet.Migrator
 
             rootCommand.AddCommand(migrationCommand);
 
-            applyCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Apply);
-            revertCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Revert);
+            applyCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Apply);
+            revertCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Revert);
 
             return new CommandLineBuilder(rootCommand);
         }
 
-        private static (TCommand, ILogger) GetCommand<TCommand>(CommandOptions options, IHost host) where TCommand : ICommand
+        private static (TCommand, ILogger) GetCommand<TCommand>(AssemblyCommandOptions options, IHost host) where TCommand : ICommand
         {
             var serviceProvider = host.Services;
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(typeof(Program));
 
-            logger.LogInformation("Run with {0} and {1}", options.Name, options.Assembly);
+            logger.LogInformation("Command: {0} | Assembly: {1}", options.Name, options.Assembly);
 
-            var assemblyCommandParser = new AssemblyCommandParser<TCommand>(options.Assembly);
+            var assemblyCommandParser = new AssemblyCommandParser<TCommand>(options.Assembly, serviceProvider);
             var command = assemblyCommandParser.GetByName(options.Name);
             if (command == null)
-                logger.LogInformation("Unable to find a command named '{0}' in assembly '{1}'", options.Name, options.Assembly);
+                logger.LogInformation("Unable to find a command named '{0}' in assembly '{1}'.", options.Name, options.Assembly);
 
             return (command, logger);
         }
 
-        private static void Execute(CommandOptions options, IHost host)
+        private static void Execute(AssemblyCommandOptions options, IHost host)
         {
             var commandAndLogger = GetCommand<IExecutionCommand>(options, host);
 
@@ -98,7 +98,7 @@ namespace Dotnet.Migrator
             logger.LogInformation("Command '{0}' successfully executed.", options.Name);
         }
 
-        private static void Apply(CommandOptions options, IHost host)
+        private static void Apply(AssemblyCommandOptions options, IHost host)
         {
             var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
 
@@ -115,7 +115,7 @@ namespace Dotnet.Migrator
             logger.LogInformation("Command '{0}' successfully applied.", options.Name);
         }
 
-        private static void Revert(CommandOptions options, IHost host)
+        private static void Revert(AssemblyCommandOptions options, IHost host)
         {
             var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
 

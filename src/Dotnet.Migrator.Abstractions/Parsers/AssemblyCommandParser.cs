@@ -4,28 +4,39 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dotnet.Migrator.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dotnet.Migrator.Parsers
 {
+    public abstract class CommandParser
+    {
+        protected CommandParser(IServiceProvider serviceProvider = null)
+        {
+            ServiceProvider = serviceProvider;
+        }
+
+        protected IServiceProvider ServiceProvider { get; }
+    }
+
     public class AssemblyCommandParser : AssemblyCommandParser<ICommand>, ICommandParser
     {
-        public AssemblyCommandParser(string assemblyPath) : base(assemblyPath)
+        public AssemblyCommandParser(string assemblyPath, IServiceProvider serviceProvider = null) : base(assemblyPath, serviceProvider)
         {
         }
 
-        public AssemblyCommandParser(Assembly assembly) : base(assembly)
+        public AssemblyCommandParser(Assembly assembly, IServiceProvider serviceProvider = null) : base(assembly, serviceProvider)
         {
         }
     }
 
-    public class AssemblyCommandParser<TCommand> : ICommandParser<TCommand> where TCommand : ICommand
+    public class AssemblyCommandParser<TCommand> : CommandParser, ICommandParser<TCommand> where TCommand : ICommand
     {
-        public AssemblyCommandParser(string assemblyPath)
+        public AssemblyCommandParser(string assemblyPath, IServiceProvider serviceProvider = null) : base(serviceProvider)
         {
-            Assembly = Assembly.LoadFrom(assemblyPath);
+            Assembly = Assembly.LoadFile(assemblyPath);
         }
 
-        public AssemblyCommandParser(Assembly assembly)
+        public AssemblyCommandParser(Assembly assembly, IServiceProvider serviceProvider = null) : base(serviceProvider)
         {
             Assembly = assembly;
         }
@@ -40,8 +51,9 @@ namespace Dotnet.Migrator.Parsers
             {
                 var commandTypes = Assembly.GetExportedTypes().Where(t => typeof(TCommand).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
                 var commands = new List<TCommand>();
+
                 foreach (var commandType in commandTypes)
-                    commands.Add((TCommand)Activator.CreateInstance(commandType));
+                    commands.Add((TCommand)ActivatorUtilities.CreateInstance(ServiceProvider, commandType));
 
                 Commands = commands;
             }

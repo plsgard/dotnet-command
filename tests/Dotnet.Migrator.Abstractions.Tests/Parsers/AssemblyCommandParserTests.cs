@@ -40,5 +40,17 @@ namespace Dotnet.Migrator.Abstractions.Tests.Parsers
             foreach (var command in commands)
                 command.ShouldBeAssignableTo<ICommand>();
         }
+
+        [Fact]
+        public void GetByName_Should_Have_Configuration()
+        {
+            var command = _assemblyCommandParser.GetByName("simple:command");
+            command.ShouldNotBeNull();
+            var currentCommand = command.ShouldBeAssignableTo<Command>();
+            currentCommand.Configuration.ShouldNotBeNull();
+            var configurationSection = currentCommand.Configuration.GetSection("Toto:Tata:Path");
+            configurationSection.ShouldNotBeNull();
+            configurationSection.Value.ShouldBe("/path/");
+        }
     }
 }
