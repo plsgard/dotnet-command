@@ -4,12 +4,14 @@ using Dotnet.Migrator.Commands;
 
 namespace Dotnet.Migrator.Parsers
 {
-    public interface ICommandParser
-    {
-        Task<IList<IMigrationCommand>> GetAllAsync();
-        IList<IMigrationCommand> GetAll();
+    public interface ICommandParser : ICommandParser<ICommand> { }
 
-        Task<IMigrationCommand> GetByNameAsync(string commandName);
-        IMigrationCommand GetByName(string commandName);
+    public interface ICommandParser<TCommand> where TCommand : ICommand
+    {
+        Task<IList<TCommand>> GetAllAsync();
+        IList<TCommand> GetAll();
+
+        Task<TCommand> GetByNameAsync(string commandName);
+        TCommand GetByName(string commandName);
     }
 }

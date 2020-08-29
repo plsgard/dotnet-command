@@ -23,19 +23,22 @@ namespace Dotnet.Migrator.Abstractions.Tests.Parsers
         {
             var command = _assemblyCommandParser.GetByName("simple:command");
             command.ShouldNotBeNull();
-            command.Migration.Name.ShouldBe("simple:command");
-            command.ShouldBeAssignableTo<IMigrationCommand>();
+            command.Name.ShouldBe("simple:command");
+            command.ShouldBeAssignableTo<ICommand>();
+            command.ShouldBeAssignableTo<Command>();
+            command.ShouldBeAssignableTo<IExecutionCommand>();
+            command.ShouldBeAssignableTo<ExecutionCommand>();
         }
 
         [Fact]
-        public void GetAll_Should_All_Commands_Inheriting_IMigrationCommand()
+        public void GetAll_Should_All_Commands_Inheriting_Command()
         {
             var commands = _assemblyCommandParser.GetAll();
             commands.ShouldNotBeNull();
             commands.ShouldNotBeEmpty();
             commands.Count.ShouldBe(2);
             foreach (var command in commands)
-                command.ShouldBeAssignableTo<IMigrationCommand>();
+                command.ShouldBeAssignableTo<ICommand>();
         }
     }
 }

@@ -7,7 +7,18 @@ using Dotnet.Migrator.Commands;
 
 namespace Dotnet.Migrator.Parsers
 {
-    public class AssemblyCommandParser : ICommandParser
+    public class AssemblyCommandParser : AssemblyCommandParser<ICommand>, ICommandParser
+    {
+        public AssemblyCommandParser(string assemblyPath) : base(assemblyPath)
+        {
+        }
+
+        public AssemblyCommandParser(Assembly assembly) : base(assembly)
+        {
+        }
+    }
+
+    public class AssemblyCommandParser<TCommand> : ICommandParser<TCommand> where TCommand : ICommand
     {
         public AssemblyCommandParser(string assemblyPath)
         {
@@ -21,16 +32,16 @@ namespace Dotnet.Migrator.Parsers
 
         public Assembly Assembly { get; }
 
-        private IList<IMigrationCommand> Commands { get; set; }
+        private IList<TCommand> Commands { get; set; }
 
-        public IList<IMigrationCommand> GetAll()
+        public IList<TCommand> GetAll()
         {
             if (!(Commands?.Any() ?? false))
             {
-                var commandTypes = Assembly.GetExportedTypes().Where(t => typeof(IMigrationCommand).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-                var commands = new List<IMigrationCommand>();
+                var commandTypes = Assembly.GetExportedTypes().Where(t => typeof(TCommand).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                var commands = new List<TCommand>();
                 foreach (var commandType in commandTypes)
-                    commands.Add((IMigrationCommand)Activator.CreateInstance(commandType));
+                    commands.Add((TCommand)Activator.CreateInstance(commandType));
 
                 Commands = commands;
             }
@@ -38,25 +49,25 @@ namespace Dotnet.Migrator.Parsers
             return Commands;
         }
 
-        public Task<IList<IMigrationCommand>> GetAllAsync()
+        public Task<IList<TCommand>> GetAllAsync()
         {
             return Task.FromResult(GetAll());
         }
 
-        public IMigrationCommand GetByName(string commandName)
+        public TCommand GetByName(string commandName)
         {
             if (string.IsNullOrWhiteSpace(commandName))
                 throw new ArgumentNullException(nameof(commandName));
 
-            return GetAll().FirstOrDefault(c => c.Migration?.Name?.Equals(commandName, StringComparison.InvariantCultureIgnoreCase) ?? false);
+            return GetAll().FirstOrDefault(c => c.Name?.Equals(commandName, StringComparison.InvariantCultureIgnoreCase) ?? false);
         }
 
-        public async Task<IMigrationCommand> GetByNameAsync(string commandName)
+        public async Task<TCommand> GetByNameAsync(string commandName)
         {
             if (string.IsNullOrWhiteSpace(commandName))
                 throw new ArgumentNullException(nameof(commandName));
 
-            return (await GetAllAsync()).FirstOrDefault(c => c.Migration?.Name?.Equals(commandName, StringComparison.InvariantCultureIgnoreCase) ?? false);
+            return (await GetAllAsync()).FirstOrDefault(c => c.Name?.Equals(commandName, StringComparison.InvariantCultureIgnoreCase) ?? false);
         }
     }
 }
