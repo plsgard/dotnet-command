@@ -11,7 +11,7 @@ namespace Dotnet.Migrator.Options
 
         protected CommandOptions(string name)
         {
-            Name = name;
+            Name = name ?? throw new System.ArgumentNullException(nameof(name));
         }
 
         /// <summary>

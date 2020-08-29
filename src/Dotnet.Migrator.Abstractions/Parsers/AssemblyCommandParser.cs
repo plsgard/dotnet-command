@@ -8,16 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dotnet.Migrator.Parsers
 {
-    public abstract class CommandParser
-    {
-        protected CommandParser(IServiceProvider serviceProvider = null)
-        {
-            ServiceProvider = serviceProvider;
-        }
-
-        protected IServiceProvider ServiceProvider { get; }
-    }
-
+    /// <inheritdoc />
     public class AssemblyCommandParser : AssemblyCommandParser<ICommand>, ICommandParser
     {
         public AssemblyCommandParser(string assemblyPath, IServiceProvider serviceProvider = null) : base(assemblyPath, serviceProvider)
@@ -29,7 +20,10 @@ namespace Dotnet.Migrator.Parsers
         }
     }
 
-    public class AssemblyCommandParser<TCommand> : CommandParser, ICommandParser<TCommand> where TCommand : ICommand
+    /// <summary>
+    /// Represents a command parser through an assembly.
+    /// </summary>
+    public class AssemblyCommandParser<TCommand> : BaseCommandParser, ICommandParser<TCommand> where TCommand : ICommand
     {
         public AssemblyCommandParser(string assemblyPath, IServiceProvider serviceProvider = null) : base(serviceProvider)
         {
@@ -45,6 +39,7 @@ namespace Dotnet.Migrator.Parsers
 
         private IList<TCommand> Commands { get; set; }
 
+        /// <inheritdoc />
         public IList<TCommand> GetAll()
         {
             if (!(Commands?.Any() ?? false))
@@ -61,11 +56,13 @@ namespace Dotnet.Migrator.Parsers
             return Commands;
         }
 
+        /// <inheritdoc />
         public Task<IList<TCommand>> GetAllAsync()
         {
             return Task.FromResult(GetAll());
         }
 
+        /// <inheritdoc />
         public TCommand GetByName(string commandName)
         {
             if (string.IsNullOrWhiteSpace(commandName))
@@ -74,6 +71,7 @@ namespace Dotnet.Migrator.Parsers
             return GetAll().FirstOrDefault(c => c.Name?.Equals(commandName, StringComparison.InvariantCultureIgnoreCase) ?? false);
         }
 
+        /// <inheritdoc />
         public async Task<TCommand> GetByNameAsync(string commandName)
         {
             if (string.IsNullOrWhiteSpace(commandName))
