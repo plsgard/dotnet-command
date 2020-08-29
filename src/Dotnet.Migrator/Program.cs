@@ -25,8 +25,8 @@ namespace Dotnet.Migrator
 
         private static CommandLineBuilder BuildCommandLine()
         {
-            var rootCommand = new CommandLine.RootCommand("Execute C# command.");
-            var commandArgument = new CommandLine.Argument<string>("command", "The name of the command to execute.") { Arity = CommandLine.ArgumentArity.ExactlyOne };
+            var rootCommand = new CommandLine.RootCommand("Execute user defined C# command.");
+            var commandArgument = new CommandLine.Argument<string>("name", "The name of the C# command to execute.") { Arity = CommandLine.ArgumentArity.ExactlyOne };
 
             var argumentAssemblyOptions = new CommandLine.Option<Assembly>(new[] { "--assembly", "-a" }, (ArgumentResult argResult) =>
             {
@@ -44,6 +44,8 @@ namespace Dotnet.Migrator
 
             rootCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Execute);
 
+            var migrationCommand = new CommandLine.Command("migration", "Apply or revert C# migration command.");
+
             var applyCommand = new CommandLine.Command("apply", "Apply a C# migration command.");
             applyCommand.AddArgument(commandArgument);
             applyCommand.AddOption(argumentAssemblyOptions);
@@ -52,8 +54,10 @@ namespace Dotnet.Migrator
             revertCommand.AddArgument(commandArgument);
             revertCommand.AddOption(argumentAssemblyOptions);
 
-            rootCommand.AddCommand(applyCommand);
-            rootCommand.AddCommand(revertCommand);
+            migrationCommand.AddCommand(applyCommand);
+            migrationCommand.AddCommand(revertCommand);
+
+            rootCommand.AddCommand(migrationCommand);
 
             applyCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Apply);
             revertCommand.Handler = CommandHandler.Create<CommandOptions, IHost>(Revert);
@@ -67,12 +71,12 @@ namespace Dotnet.Migrator
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(typeof(Program));
 
-            logger.LogInformation("Run with {0} and {1}", options.Command, options.Assembly);
+            logger.LogInformation("Run with {0} and {1}", options.Name, options.Assembly);
 
             var assemblyCommandParser = new AssemblyCommandParser<TCommand>(options.Assembly);
-            var command = assemblyCommandParser.GetByName(options.Command);
+            var command = assemblyCommandParser.GetByName(options.Name);
             if (command == null)
-                logger.LogInformation("Unable to find a command named '{0}' in assembly '{1}'", options.Command, options.Assembly);
+                logger.LogInformation("Unable to find a command named '{0}' in assembly '{1}'", options.Name, options.Assembly);
 
             return (command, logger);
         }
@@ -87,11 +91,11 @@ namespace Dotnet.Migrator
             var logger = commandAndLogger.Item2;
             var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Executing command '{0}'...", options.Command);
+            logger.LogInformation("Executing command '{0}'...", options.Name);
 
             command.Execute();
 
-            logger.LogInformation("Command '{0}' successfully executed.", options.Command);
+            logger.LogInformation("Command '{0}' successfully executed.", options.Name);
         }
 
         private static void Apply(CommandOptions options, IHost host)
@@ -104,11 +108,11 @@ namespace Dotnet.Migrator
             var logger = commandAndLogger.Item2;
             var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Applying command '{0}'...", options.Command);
+            logger.LogInformation("Applying command '{0}'...", options.Name);
 
             command.Up();
 
-            logger.LogInformation("Command '{0}' successfully applied.", options.Command);
+            logger.LogInformation("Command '{0}' successfully applied.", options.Name);
         }
 
         private static void Revert(CommandOptions options, IHost host)
@@ -121,11 +125,11 @@ namespace Dotnet.Migrator
             var logger = commandAndLogger.Item2;
             var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Reverting command '{0}'...", options.Command);
+            logger.LogInformation("Reverting command '{0}'...", options.Name);
 
             command.Down();
 
-            logger.LogInformation("Command '{0}' successfully revert.", options.Command);
+            logger.LogInformation("Command '{0}' successfully revert.", options.Name);
         }
     }
 }

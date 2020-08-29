@@ -3,21 +3,17 @@ namespace Dotnet.Migrator.Options
 {
     public class CommandOptions
     {
-        protected CommandOptions()
+        public CommandOptions(string name, Assembly assembly)
+        {
+            Name = name ?? throw new System.ArgumentNullException(nameof(name));
+            Assembly = assembly ?? throw new System.ArgumentNullException(nameof(assembly));
+        }
+
+        public CommandOptions(string name, string assembly) : this(name, Assembly.LoadFrom(assembly))
         {
         }
 
-        public CommandOptions(string command, Assembly assembly)
-        {
-            Command = command;
-            Assembly = assembly;
-        }
-
-        public CommandOptions(string command, string assembly) : this(command, Assembly.LoadFrom(assembly))
-        {
-        }
-
-        public string Command { get; private set; }
+        public string Name { get; private set; }
 
         public Assembly Assembly { get; private set; }
     }
