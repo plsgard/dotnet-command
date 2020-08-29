@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\Dotnet.Migrator.Abstractions\Dotnet.Migrator.Abstractions.csproj" />
+    <ProjectReference Include="..\Dotnet.Command.Abstractions\Dotnet.Command.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20371.2" />

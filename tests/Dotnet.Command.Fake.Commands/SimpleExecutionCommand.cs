@@ -1,6 +1,6 @@
-﻿using Dotnet.Migrator.Commands;
+﻿using Dotnet.Command.Commands;
 
-namespace Dotnet.Migrator.Fake.Commands
+namespace Dotnet.Command.Fake.Commands
 {
     public class SimpleExecutionCommand : ExecutionCommand
     {

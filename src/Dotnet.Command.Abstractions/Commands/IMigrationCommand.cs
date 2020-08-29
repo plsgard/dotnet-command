@@ -1,4 +1,4 @@
-namespace Dotnet.Migrator.Commands
+namespace Dotnet.Command.Commands
 {
     /// <summary>
     /// Represents a migration command.

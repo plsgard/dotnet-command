@@ -3,10 +3,10 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dotnet.Migrator.Commands;
+using Dotnet.Command.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dotnet.Migrator.Parsers
+namespace Dotnet.Command.Parsers
 {
     /// <inheritdoc />
     public class AssemblyCommandParser : AssemblyCommandParser<ICommand>, ICommandParser

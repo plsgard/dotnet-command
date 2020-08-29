@@ -5,15 +5,15 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F035738F-60EC-4382-B1C8-69AC33D1CB70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Migrator.Abstractions", "src\Dotnet.Migrator.Abstractions\Dotnet.Migrator.Abstractions.csproj", "{0E454D58-D7E4-4B54-9458-2299197A66B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Command.Abstractions", "src\Dotnet.Command.Abstractions\Dotnet.Command.Abstractions.csproj", "{0E454D58-D7E4-4B54-9458-2299197A66B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Migrator", "src\Dotnet.Migrator\Dotnet.Migrator.csproj", "{4A2EE007-5726-4D4B-989E-614AFF00142B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Command", "src\Dotnet.Command\Dotnet.Command.csproj", "{4A2EE007-5726-4D4B-989E-614AFF00142B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EA97DEA1-A971-4CC2-B354-A090818CEA0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Migrator.Abstractions.Tests", "tests\Dotnet.Migrator.Abstractions.Tests\Dotnet.Migrator.Abstractions.Tests.csproj", "{EA5DBE2B-016E-46FC-9FEB-8ECE832B6198}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Command.Abstractions.Tests", "tests\Dotnet.Command.Abstractions.Tests\Dotnet.Command.Abstractions.Tests.csproj", "{EA5DBE2B-016E-46FC-9FEB-8ECE832B6198}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Migrator.Fake.Commands", "tests\Dotnet.Migrator.Fake.Commands\Dotnet.Migrator.Fake.Commands.csproj", "{9888869A-D217-4563-9D6C-16A0FCD548E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Command.Fake.Commands", "tests\Dotnet.Command.Fake.Commands\Dotnet.Command.Fake.Commands.csproj", "{9888869A-D217-4563-9D6C-16A0FCD548E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

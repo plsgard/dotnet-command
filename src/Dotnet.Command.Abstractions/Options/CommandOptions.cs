@@ -1,4 +1,4 @@
-namespace Dotnet.Migrator.Options
+namespace Dotnet.Command.Options
 {
     /// <summary>
     /// Represents all the options can be provided to call a command.

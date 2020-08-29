@@ -1,11 +1,11 @@
 using System.IO;
-using Dotnet.Migrator.Commands;
-using Dotnet.Migrator.Parsers;
+using Dotnet.Command.Commands;
+using Dotnet.Command.Parsers;
 using Shouldly;
 using Xunit;
 using System.Linq;
 
-namespace Dotnet.Migrator.Abstractions.Tests.Parsers
+namespace Dotnet.Command.Abstractions.Tests.Parsers
 {
     public class AssemblyCommandParserTests : TestBase
     {
@@ -25,7 +25,7 @@ namespace Dotnet.Migrator.Abstractions.Tests.Parsers
             command.ShouldNotBeNull();
             command.Name.ShouldBe("simple:command");
             command.ShouldBeAssignableTo<ICommand>();
-            command.ShouldBeAssignableTo<Command>();
+            command.ShouldBeAssignableTo<Commands.Command>();
             command.ShouldBeAssignableTo<IExecutionCommand>();
             command.ShouldBeAssignableTo<ExecutionCommand>();
         }
@@ -46,7 +46,7 @@ namespace Dotnet.Migrator.Abstractions.Tests.Parsers
         {
             var command = _assemblyCommandParser.GetByName("simple:command");
             command.ShouldNotBeNull();
-            var currentCommand = command.ShouldBeAssignableTo<Command>();
+            var currentCommand = command.ShouldBeAssignableTo<Commands.Command>();
             currentCommand.Configuration.ShouldNotBeNull();
             var configurationSection = currentCommand.Configuration.GetSection("Toto:Tata:Path");
             configurationSection.ShouldNotBeNull();

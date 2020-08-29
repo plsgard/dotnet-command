@@ -9,11 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine.Hosting;
-using Dotnet.Migrator.Options;
-using Dotnet.Migrator.Parsers;
-using Dotnet.Migrator.Commands;
+using Dotnet.Command.Options;
+using Dotnet.Command.Parsers;
+using Dotnet.Command.Commands;
 
-namespace Dotnet.Migrator
+namespace Dotnet.Command
 {
     class Program
     {

@@ -3,7 +3,7 @@
     <ConfigFiles Include="appsettings*.json"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Dotnet.Migrator.Abstractions\Dotnet.Migrator.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Dotnet.Command.Abstractions\Dotnet.Command.Abstractions.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
