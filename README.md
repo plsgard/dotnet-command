@@ -39,8 +39,11 @@ dotnet cmd --help
 
 ### Command
 
-A command is a class who contains some operations to execute. Currently, there are 2 kinds of commands : `ExecutionCommand` and `MigrationCommand`.
-All commands inherit of `ICommand` interface. And each kind of command inherits respectively of `IExecutionCommand` and `IMigrationCommand`.
+A command is a class who contains some operations to execute. Currently, there are 2 kinds of commands : "execution command" and "migration command".
+An "execution command" has only one operation. A "migration command" is a command who can be applied or reverted.
+
+The `Dotnet.Command.Abstractions` package provides 2 base abstract classes: `ExecutionCommand` and `MigrationCommand`.
+All commands inherit from `Command` abstract class, who itself implements `ICommand` interface. And each abstract command class implements respectively of `IExecutionCommand` and `IMigrationCommand`.
 
 #### ExecutionCommand
 
@@ -121,31 +124,31 @@ public class MyMigrationCommand : MigrationCommand
 
 ### 2. Execute your command or Apply a migration
 
-#### Execute an `ExecutionCommand`
+#### Execute an `ExecutionCommand` > `dotnet cmd exec`
 
 ```
-dotnet cmd --assembly <path_to_dll_containing_your_command> <name_of_the_command>
+dotnet cmd exec <name_of_the_command> --assembly <path_to_dll_containing_your_command>
 
 # e.g.
-dotnet cmd --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll my-exec-command-name
+dotnet cmd exec my-exec-command-name --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll
 ```
 
-#### Apply a `MigrationCommand`
+#### Apply a `MigrationCommand` > `dotnet cmd migration apply`
 
 ```
-dotnet cmd migration apply --assembly <path_to_dll_containing_your_command> <name_of_the_command>
+dotnet cmd migration apply <name_of_the_command> --assembly <path_to_dll_containing_your_command>
 
 # e.g.
-dotnet cmd migration apply --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll my-migration-command-name
+dotnet cmd migration apply my-migration-command-name --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll
 ```
 
-#### Revert a `MigrationCommand`
+#### Revert a `MigrationCommand` > `dotnet cmd migration revert`
 
 ```
-dotnet cmd migration revert --assembly <path_to_dll_containing_your_command> <name_of_the_command>
+dotnet cmd migration revert <name_of_the_command> --assembly <path_to_dll_containing_your_command>
 
 # e.g.
-dotnet cmd migration apply --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll my-migration-command-name
+dotnet cmd migration apply my-migration-command-name --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll
 ```
 
 ### Configuration
@@ -189,6 +192,8 @@ public class MyExecutionCommand : ExecutionCommand
     }
 }
 ```
+
+> Note that your classes who inherits from `ExecutionCommand` or `MigrationCommand` may have a constructor with a `IConfiguration configuration` parameter, in order to mock the configuration in your tests.
 
 ### Logging
 

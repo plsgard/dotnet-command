@@ -25,9 +25,9 @@ namespace Dotnet.Command
 
         private static CommandLineBuilder BuildCommandLine()
         {
-            var rootCommand = new CommandLine.RootCommand("Execute user defined C# command.");
-            var commandArgument = new CommandLine.Argument<string>("name", "The name of the C# command to execute.") { Arity = CommandLine.ArgumentArity.ExactlyOne };
+            var rootCommand = new CommandLine.RootCommand("Calls a user-defined C# command.");
 
+            var commandArgument = new CommandLine.Argument<string>("name", "The name of the C# command to execute.") { Arity = CommandLine.ArgumentArity.ExactlyOne };
             var argumentAssemblyOptions = new CommandLine.Option<Assembly>(new[] { "--assembly", "-a" }, (ArgumentResult argResult) =>
             {
                 var path = argResult.Tokens?.FirstOrDefault()?.Value;
@@ -39,12 +39,14 @@ namespace Dotnet.Command
             }, true, "The assembly who contains the command to execute.")
             { IsRequired = true };
 
-            rootCommand.AddArgument(commandArgument);
-            rootCommand.AddOption(argumentAssemblyOptions);
+            var executionCommand = new CommandLine.Command("exec", "Executes a C# migration command.");
+            executionCommand.AddArgument(commandArgument);
+            executionCommand.AddOption(argumentAssemblyOptions);
+            executionCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Execute);
 
-            rootCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Execute);
+            rootCommand.AddCommand(executionCommand);
 
-            var migrationCommand = new CommandLine.Command("migration", "Apply or revert C# migration command.");
+            var migrationCommand = new CommandLine.Command("migration", "Apply or revert a C# migration command.");
 
             var applyCommand = new CommandLine.Command("apply", "Apply a C# migration command.");
             applyCommand.AddArgument(commandArgument);
