@@ -15,7 +15,7 @@ namespace Dotnet.Command.Parsers
         /// <summary>
         /// Returns all commands found by the parser.
         /// </summary>
-        /// <returns>A list of commands of type <see cref="TCommand" /></returns>
+        /// <returns>A list of commands of type TCommand /></returns>
         Task<IList<TCommand>> GetAllAsync();
 
         /// <inheritdoc cref="GetAllAsync" />
@@ -25,7 +25,7 @@ namespace Dotnet.Command.Parsers
         /// Returns the command with the provided name.
         /// </summary>
         /// <param name="commandName">The name of the command to find.</param>
-        /// <returns>A command with the provided name, and of type <see cref="TCommand" /></returns>
+        /// <returns>A command with the provided name, and of type TCommand /></returns>
         Task<TCommand> GetByNameAsync(string commandName);
 
         /// <inheritdoc cref="GetByNameAsync" />
