@@ -2,10 +2,10 @@ This repository contains the code for the `Plsgd.System.Command.Abstractions` li
 
 ## Packages
 
-| Package                             | Version | Description                                                                                       |
-| ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
-| `Plsgd.System.Command.Abstractions` |         | user-defined C# command, command parser, migration command, ...                                   |
-| `dotnet-command`                    |         | A command-line tool to call user-defined C# command based on `Plsgd.System.Command.Abstractions`. |
+| Package                             | Version                                                                                                                                        | Description                                                                                       |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `Plsgd.System.Command.Abstractions` | [![Nuget](https://img.shields.io/nuget/v/Plsgd.System.Command.Abstractions.svg)](https://nuget.org/packages/Plsgd.System.Command.Abstractions) | user-defined C# command, command parser, migration command, ...                                   |
+| `dotnet-command`                    | [![Nuget](https://img.shields.io/nuget/v/plsgd-dotnet-command.svg)](https://nuget.org/packages/plsgd-dotnet-command)                           | A command-line tool to call user-defined C# command based on `Plsgd.System.Command.Abstractions`. |
 
 ## Documentation
 
@@ -22,7 +22,9 @@ This is the tool to use in order to call the commands that you've created.
 #### Install the `dotnet-command` tool
 
 ```
-dotnet tool install -g dotnet-command
+dotnet tool install -g plsgd-dotnet-command
+
+# don't forget to add --version <version> if you want to use specific version, especially for the preview versions who are not downloaded by default
 ```
 
 #### Get help
