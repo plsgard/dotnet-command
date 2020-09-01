@@ -4,7 +4,7 @@
     <PackageId>Dotnet.Command.Abstractions</PackageId>
     <Version>0.1.1-alpha</Version>
     <Title>Dotnet Command Abstractions</Title>
-    <Description>Abstractions of user-defined C# command, used for the dotnet-cmd tool.</Description>
+    <Description>Abstractions of user-defined C# command, used for the dotnet-command tool.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.7"/>
