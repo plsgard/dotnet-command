@@ -8,7 +8,7 @@ namespace System.Command.Fake.Commands
 
         public void Execute()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

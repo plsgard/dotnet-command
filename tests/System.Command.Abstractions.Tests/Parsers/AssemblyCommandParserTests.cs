@@ -14,7 +14,8 @@ namespace System.Command.Abstractions.Tests.Parsers
         public AssemblyCommandParserTests()
         {
             var fakeProjectPath = Configuration.GetSection("Commands:Fake:ProjectPath").Value;
-            var fakeDllPath = Directory.GetFiles(fakeProjectPath, "*.Fake.Commands.dll", SearchOption.AllDirectories).FirstOrDefault();
+            var fakeFullPath = Path.Combine(Environment.CurrentDirectory, "../../../../", fakeProjectPath);
+            var fakeDllPath = Directory.GetFiles(fakeFullPath, "*.Fake.Commands.dll", SearchOption.AllDirectories).FirstOrDefault();
             _assemblyCommandParser = new AssemblyCommandParser(fakeDllPath);
         }
 
