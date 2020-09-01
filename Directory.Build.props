@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <LocalVersion>0.1.1-alpha</LocalVersion>
+        <LangVersion>latest</LangVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <Authors>Pier-Lionel Sgard</Authors>
+        <Company>Plsgd</Company>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/plsgard/dotnet-command</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/plsgard/dotnet-command</PackageProjectUrl>
+        <Copyright>© Plsgd (Pier-Lionel Sgard)</Copyright>
+    </PropertyGroup>
+</Project>
