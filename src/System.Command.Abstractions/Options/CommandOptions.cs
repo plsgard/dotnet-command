@@ -1,4 +1,4 @@
-namespace Dotnet.Command.Options
+namespace System.Command.Options
 {
     /// <summary>
     /// Represents all the options can be provided to call a command.

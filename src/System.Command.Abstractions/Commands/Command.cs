@@ -3,7 +3,7 @@ using System.IO;
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Dotnet.Command.Commands
+namespace System.Command.Commands
 {
     /// <inheritdoc />
     public abstract class Command : ICommand

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Dotnet.Command.Commands
+namespace System.Command.Commands
 {
     /// <inheritdoc />
     public abstract class ExecutionCommand : Command, IExecutionCommand

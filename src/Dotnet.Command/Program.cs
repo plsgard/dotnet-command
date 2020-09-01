@@ -9,11 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine.Hosting;
-using Dotnet.Command.Options;
-using Dotnet.Command.Parsers;
-using Dotnet.Command.Commands;
+using System.Command.Options;
+using System.Command.Parsers;
+using System.Command.Commands;
 
-namespace Dotnet.Command
+namespace System.Command
 {
     class Program
     {

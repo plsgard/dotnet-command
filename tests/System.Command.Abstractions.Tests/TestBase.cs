@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Dotnet.Command.Abstractions.Tests
+namespace System.Command.Abstractions.Tests
 {
     public class TestBase
     {

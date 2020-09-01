@@ -1,19 +1,19 @@
-This repository contains the code for the `Dotnet.Command.Abstractions` libraries and the `dotnet-command` global tool.
+This repository contains the code for the `Plsgd.System.Command.Abstractions` libraries and the `dotnet-command` global tool.
 
 ## Packages
 
-| Package                       | Version | Description                                                                                 |
-| ----------------------------- | ------- | ------------------------------------------------------------------------------------------- |
-| `Dotnet.Command.Abstractions` |         | user-defined C# command, command parser, migration command, ...                             |
-| `dotnet-command`              |         | A command-line tool to call user-defined C# command based on `Dotnet.Command.Abstractions`. |
+| Package                             | Version | Description                                                                                       |
+| ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| `Plsgd.System.Command.Abstractions` |         | user-defined C# command, command parser, migration command, ...                                   |
+| `dotnet-command`                    |         | A command-line tool to call user-defined C# command based on `Plsgd.System.Command.Abstractions`. |
 
 ## Documentation
 
 The need behind this package was to be able to execute some operations like update external datas of a provider, migrate some project datas who are not stored in database, etc... without depending on a project and in C# in order to be easily testable by the project containing the commands.
 
-### `Dotnet.Command.Abstractions`
+### `Plsgd.System.Command.Abstractions`
 
-This package contains all abstractions who can be used to create your command to call. You will have to import it in the project containing your command. The root namespace is `Dotnet.Command`.
+This package contains all abstractions who can be used to create your command to call. You will have to import it in the project containing your command. The root namespace is `System.Command`.
 
 ### `dotnet-command`
 
@@ -33,7 +33,7 @@ dotnet cmd --help
 
 ### How does it work?
 
-1. You create a .NET Core project, with some C# custom command by using `Dotnet.Command.Abstractions` and the corresponding base classes.
+1. You create a .NET Core project, with some C# custom command by using `Plsgd.System.Command.Abstractions` and the corresponding base classes.
 2. You use the `dotnet-command` tool with CLI to call the command that you want to execute, providing the correct path to the project containing your command
 3. The `dotnet-command` tool will parse your arguments, try to find the provided command in the provided project, and execute it
 
@@ -42,7 +42,7 @@ dotnet cmd --help
 A command is a class who contains some operations to execute. Currently, there are 2 kinds of commands : "execution command" and "migration command".
 An "execution command" has only one operation. A "migration command" is a command who can be applied or reverted.
 
-The `Dotnet.Command.Abstractions` package provides 2 base abstract classes: `ExecutionCommand` and `MigrationCommand`.
+The `Plsgd.System.Command.Abstractions` package provides 2 base abstract classes: `ExecutionCommand` and `MigrationCommand`.
 All commands inherit from `Command` abstract class, who itself implements `ICommand` interface. And each abstract command class implements respectively of `IExecutionCommand` and `IMigrationCommand`.
 
 #### ExecutionCommand
@@ -73,10 +73,10 @@ The options class simply contains the name of the command to execute, and the as
 
 ### 1. Create a custom command
 
-First of all, you have to import the `Dotnet.Command.Abstractions` package in the project where you want to create your custom commands:
+First of all, you have to import the `Plsgd.System.Command.Abstractions` package in the project where you want to create your custom commands:
 
 ```
-dotnet add package Dotnet.Command.Abstractions
+dotnet add package Plsgd.System.Command.Abstractions
 
 # don't forget to add -v <version> if you want to use specific version, especially for the preview versions who are not downloaded by default
 ```
@@ -84,7 +84,7 @@ dotnet add package Dotnet.Command.Abstractions
 Create a new class derived from `ExecutionCommand`, if you only want to execute this command, or from `MigrationCommand` if you want create a migration who can be applied or reverted:
 
 ```csharp
-using Dotnet.Command.Commands
+using System.Command.Commands
 
 public class MyExecutionCommand : ExecutionCommand
 {
@@ -101,7 +101,7 @@ public class MyExecutionCommand : ExecutionCommand
 If you want to create a migration command, inherit from `MigrationCommand`:
 
 ```csharp
-using Dotnet.Command.Commands
+using System.Command.Commands
 
 public class MyMigrationCommand : MigrationCommand
 {
@@ -178,7 +178,7 @@ So if you want to use a configuration file, follow these steps:
 - use the `Configuration` property in your command to retrieve what you want:
 
 ```csharp
-using Dotnet.Command.Commands
+using System.Command.Commands
 
 public class MyExecutionCommand : ExecutionCommand
 {
@@ -200,7 +200,7 @@ public class MyExecutionCommand : ExecutionCommand
 By default, the `dotnet-command` tool will inject its own `ILogger` when he calls the command. So you can add a `ILogger` in the constructor of your command, and use it where you want:
 
 ```csharp
-using Dotnet.Command.Commands
+using System.Command.Commands
 
 public class MyExecutionCommand : ExecutionCommand
 {
@@ -218,3 +218,7 @@ public class MyExecutionCommand : ExecutionCommand
     }
 }
 ```
+
+## License
+
+Both projects are licensed under the terms of the [MIT license](LICENSE.md).

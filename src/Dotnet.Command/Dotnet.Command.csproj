@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\Dotnet.Command.Abstractions\Dotnet.Command.Abstractions.csproj" />
+    <ProjectReference Include="..\System.Command.Abstractions\System.Command.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20427.1" />
@@ -14,9 +14,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dotnet-cmd</ToolCommandName>
-    <PackageId>dotnet-command</PackageId>
+    <PackageId>plsgd-dotnet-command</PackageId>
     <Version>0.1.1-alpha</Version>
     <Title>Dotnet Command</Title>
     <Description>A .NET Core global tool to call user-defined C# command to execute some operations through .NET CLI.</Description>
+    <PackageTags>dotnet-core,tool,command,c#,migration,.net core</PackageTags>
   </PropertyGroup>
 </Project>

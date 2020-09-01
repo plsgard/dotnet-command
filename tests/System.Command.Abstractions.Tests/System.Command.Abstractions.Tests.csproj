@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Dotnet.Command.Abstractions\Dotnet.Command.Abstractions.csproj"/>
+    <ProjectReference Include="..\..\src\System.Command.Abstractions\System.Command.Abstractions.csproj"/>
   </ItemGroup>
   <Target Name="CopyConfigFiles" AfterTargets="AfterBuild">
     <Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />

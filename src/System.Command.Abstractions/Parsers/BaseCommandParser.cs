@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dotnet.Command.Parsers
+namespace System.Command.Parsers
 {
     /// <summary>
     /// The base class of a command parser.

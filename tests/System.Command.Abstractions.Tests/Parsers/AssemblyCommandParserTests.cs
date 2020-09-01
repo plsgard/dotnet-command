@@ -1,11 +1,11 @@
 using System.IO;
-using Dotnet.Command.Commands;
-using Dotnet.Command.Parsers;
+using System.Command.Commands;
+using System.Command.Parsers;
 using Shouldly;
 using Xunit;
 using System.Linq;
 
-namespace Dotnet.Command.Abstractions.Tests.Parsers
+namespace System.Command.Abstractions.Tests.Parsers
 {
     public class AssemblyCommandParserTests : TestBase
     {

@@ -1,6 +1,6 @@
-﻿using Dotnet.Command.Commands;
+﻿using System.Command.Commands;
 
-namespace Dotnet.Command.Fake.Commands
+namespace System.Command.Fake.Commands
 {
     public class BaseExecutionCommand : IExecutionCommand
     {

@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-namespace Dotnet.Command.Options
+namespace System.Command.Options
 {
     /// <summary>
     /// Represents the options used to call a command through an assembly.

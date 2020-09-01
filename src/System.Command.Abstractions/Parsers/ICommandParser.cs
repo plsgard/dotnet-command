@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dotnet.Command.Commands;
+using System.Command.Commands;
 
-namespace Dotnet.Command.Parsers
+namespace System.Command.Parsers
 {
     /// <inheritdoc />
     public interface ICommandParser : ICommandParser<ICommand> { }
