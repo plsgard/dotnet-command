@@ -1,11 +1,9 @@
-using Microsoft.Extensions.Configuration;
-
 namespace System.Command.Commands
 {
     /// <inheritdoc />
     public abstract class MigrationCommand : Command, IMigrationCommand
     {
-        protected MigrationCommand(string commandName, IConfiguration configuration = null) : base(commandName, configuration)
+        protected MigrationCommand(string commandName) : base(commandName)
         {
         }
 
