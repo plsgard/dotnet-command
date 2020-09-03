@@ -235,3 +235,19 @@ dotnet cmd exec my-exec-command-name --assembly ../src/MyProject.Commands/bin/De
 ## License
 
 Both projects are licensed under the terms of the [MIT license](LICENSE.md).
+
+---
+
+## Troubleshooting
+
+- `Could not load type '...' from assembly` when calling a command
+
+Because `dotnet-command` instantiates the command from an external assembly, by default, the context is not the same between `dotnet-command` and the assembly. So, if you use some external assemblies in your command's project, like Nuget, they can't be loaded if they are not loaded in the project output.
+
+You can add the property to your command's project `.csproj` file:
+
+```xml
+<PropertyGroup>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+</PropertyGroup>
+```
