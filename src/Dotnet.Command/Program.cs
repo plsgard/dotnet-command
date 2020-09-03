@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Reflection;
-using CommandLine = System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
@@ -17,8 +16,13 @@ namespace System.Command
 {
     class Program
     {
+        static LogLevel _minimumLogLevel = LogLevel.Information;
+
         static async Task Main(string[] args) => await BuildCommandLine()
-            .UseHost(_ => Host.CreateDefaultBuilder())
+            .UseHost(_ => Host.CreateDefaultBuilder().ConfigureLogging((opt) =>
+            {
+                opt.SetMinimumLevel(_minimumLogLevel);
+            }))
             .UseDefaults()
             .Build()
             .InvokeAsync(args);
@@ -26,6 +30,13 @@ namespace System.Command
         private static CommandLineBuilder BuildCommandLine()
         {
             var rootCommand = new CommandLine.RootCommand("Calls a user-defined C# command.");
+
+            var logLevelOption = new CommandLine.Option<LogLevel>(new[] { "--log", "-l" }, (ArgumentResult argResult) =>
+            {
+                if (Enum.TryParse(typeof(LogLevel), argResult?.Tokens?.FirstOrDefault()?.Value, true, out var logLevel))
+                    _minimumLogLevel = (LogLevel)logLevel;
+                return _minimumLogLevel;
+            }, false, "The minimum log level to display.");
 
             var commandArgument = new CommandLine.Argument<string>("name", "The name of the C# command to execute.") { Arity = CommandLine.ArgumentArity.ExactlyOne };
             var argumentAssemblyOptions = new CommandLine.Option<Assembly>(new[] { "--assembly", "-a" }, (ArgumentResult argResult) =>
@@ -42,6 +53,8 @@ namespace System.Command
             var executionCommand = new CommandLine.Command("exec", "Executes a C# migration command.");
             executionCommand.AddArgument(commandArgument);
             executionCommand.AddOption(argumentAssemblyOptions);
+            executionCommand.AddOption(logLevelOption);
+
             executionCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Execute);
 
             rootCommand.AddCommand(executionCommand);
@@ -51,10 +64,12 @@ namespace System.Command
             var applyCommand = new CommandLine.Command("apply", "Apply a C# migration command.");
             applyCommand.AddArgument(commandArgument);
             applyCommand.AddOption(argumentAssemblyOptions);
+            applyCommand.AddOption(logLevelOption);
 
             var revertCommand = new CommandLine.Command("revert", "Revert a C# migration command.");
             revertCommand.AddArgument(commandArgument);
             revertCommand.AddOption(argumentAssemblyOptions);
+            revertCommand.AddOption(logLevelOption);
 
             migrationCommand.AddCommand(applyCommand);
             migrationCommand.AddCommand(revertCommand);
