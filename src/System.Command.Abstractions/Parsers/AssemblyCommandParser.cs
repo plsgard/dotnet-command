@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace System.Command.Parsers
     {
         public AssemblyCommandParser(string assemblyPath, IServiceProvider serviceProvider = null) : base(serviceProvider)
         {
-            Assembly = Assembly.LoadFile(assemblyPath);
+            Assembly = Assembly.LoadFrom(assemblyPath);
         }
 
         public AssemblyCommandParser(Assembly assembly, IServiceProvider serviceProvider = null) : base(serviceProvider)

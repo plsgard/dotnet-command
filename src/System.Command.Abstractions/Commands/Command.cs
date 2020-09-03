@@ -1,6 +1,5 @@
 using System.Reflection;
 using System.IO;
-using System;
 using Microsoft.Extensions.Configuration;
 
 namespace System.Command.Commands
@@ -8,10 +7,10 @@ namespace System.Command.Commands
     /// <inheritdoc />
     public abstract class Command : ICommand
     {
-        protected Command(string commandName, IConfiguration configuration = null)
+        protected Command(string commandName)
         {
             Name = commandName ?? throw new ArgumentNullException(nameof(commandName));
-            Configuration = configuration ?? BuildConfiguration();
+            Configuration = BuildConfiguration();
         }
 
         /// <inheritdoc />
@@ -21,7 +20,7 @@ namespace System.Command.Commands
         /// The configuration who can be used by the command implementation.
         /// </summary>
         /// <value></value>
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         /// <summary>
         /// If no configuration is provided, try to create a configuration based on an appsettings.json file stored in the command assembly.

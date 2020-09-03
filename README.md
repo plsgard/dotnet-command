@@ -195,7 +195,7 @@ public class MyExecutionCommand : ExecutionCommand
 }
 ```
 
-> Note that your classes who inherits from `ExecutionCommand` or `MigrationCommand` may have a constructor with a `IConfiguration configuration` parameter, in order to mock the configuration in your tests.
+> Note that all classes who inherits from `Command`, like `ExecutionCommand` or `MigrationCommand`, have the property `IConfiguration configuration` who can be set, in order to mock the configuration in your tests.
 
 ### Logging
 
@@ -221,6 +221,33 @@ public class MyExecutionCommand : ExecutionCommand
 }
 ```
 
+#### Logging Level
+
+The logger is injected by the `dotnet-command` app. By default, the loggin level is `Information`. You can change the minimum logging level by passing the option `--log <level>` to your command:
+
+```
+dotnet cmd exec <name_of_the_command> --assembly <path_to_dll_containing_your_command> --log <level>
+
+# e.g.
+dotnet cmd exec my-exec-command-name --assembly ../src/MyProject.Commands/bin/Debug/netcoreapp31/MyProject.Commands.dll --log Debug
+```
+
 ## License
 
 Both projects are licensed under the terms of the [MIT license](LICENSE.md).
+
+---
+
+## Troubleshooting
+
+- `Could not load type '...' from assembly` when calling a command
+
+Because `dotnet-command` instantiates the command from an external assembly, by default, the context is not the same between `dotnet-command` and the assembly. So, if you use some external assemblies in your command's project, like Nuget, they can't be loaded if they are not loaded in the project output.
+
+You can add the property to your command's project `.csproj` file:
+
+```xml
+<PropertyGroup>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+</PropertyGroup>
+```
