@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace System.Command.Commands
 {
     /// <inheritdoc />
@@ -8,9 +11,9 @@ namespace System.Command.Commands
         }
 
         /// <inheritdoc />
-        public abstract void Down();
+        public abstract Task DownAsync(CancellationToken cancellationToken);
 
         /// <inheritdoc />
-        public abstract void Up();
+        public abstract Task UpAsync(CancellationToken cancellationToken);
     }
 }

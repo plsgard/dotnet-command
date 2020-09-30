@@ -1,4 +1,6 @@
-﻿using System.Command.Commands;
+﻿using System.Threading.Tasks;
+using System.Command.Commands;
+using System.Threading;
 
 namespace System.Command.Fake.Commands
 {
@@ -8,8 +10,9 @@ namespace System.Command.Fake.Commands
         {
         }
 
-        public override void Execute()
+        public override Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            return Task.CompletedTask;
         }
     }
 }

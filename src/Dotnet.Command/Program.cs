@@ -11,6 +11,7 @@ using System.CommandLine.Hosting;
 using System.Command.Options;
 using System.Command.Parsers;
 using System.Command.Commands;
+using System.Threading;
 
 namespace System.Command
 {
@@ -55,7 +56,7 @@ namespace System.Command
             executionCommand.AddOption(argumentAssemblyOptions);
             executionCommand.AddOption(logLevelOption);
 
-            executionCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Execute);
+            executionCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost, CancellationToken>(Execute);
 
             rootCommand.AddCommand(executionCommand);
 
@@ -76,8 +77,8 @@ namespace System.Command
 
             rootCommand.AddCommand(migrationCommand);
 
-            applyCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Apply);
-            revertCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost>(Revert);
+            applyCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost, CancellationToken>(Apply);
+            revertCommand.Handler = CommandHandler.Create<AssemblyCommandOptions, IHost, CancellationToken>(Revert);
 
             return new CommandLineBuilder(rootCommand);
         }
@@ -98,55 +99,91 @@ namespace System.Command
             return (command, logger);
         }
 
-        private static void Execute(AssemblyCommandOptions options, IHost host)
+        private static async Task<int> Execute(AssemblyCommandOptions options, IHost host, CancellationToken cancellationToken)
         {
-            var commandAndLogger = GetCommand<IExecutionCommand>(options, host);
+            ILogger logger = null;
+            try
+            {
+                var commandAndLogger = GetCommand<IExecutionCommand>(options, host);
 
-            if (commandAndLogger.Item1 == null)
-                return;
+                if (commandAndLogger.Item1 == null)
+                    throw new ArgumentException("Unable to retrieve the expected command.");
 
-            var logger = commandAndLogger.Item2;
-            var command = commandAndLogger.Item1;
+                logger = commandAndLogger.Item2;
+                var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Executing command '{0}'...", options.Name);
+                logger.LogInformation("Executing command '{0}'...", options.Name);
 
-            command.Execute();
+                await command.ExecuteAsync(cancellationToken);
 
-            logger.LogInformation("Command '{0}' successfully executed.", options.Name);
+                logger.LogInformation("Command '{0}' successfully executed.", options.Name);
+                return 0;
+            }
+            catch (OperationCanceledException)
+            {
+                if (logger != null)
+                    logger.LogError("The operation was aborted.");
+
+                return 1;
+            }
         }
 
-        private static void Apply(AssemblyCommandOptions options, IHost host)
+        private static async Task<int> Apply(AssemblyCommandOptions options, IHost host, CancellationToken cancellationToken)
         {
-            var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
+            ILogger logger = null;
+            try
+            {
+                var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
 
-            if (commandAndLogger.Item1 == null)
-                return;
+                if (commandAndLogger.Item1 == null)
+                    throw new ArgumentException("Unable to retrieve the expected command.");
 
-            var logger = commandAndLogger.Item2;
-            var command = commandAndLogger.Item1;
+                logger = commandAndLogger.Item2;
+                var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Applying command '{0}'...", options.Name);
+                logger.LogInformation("Applying command '{0}'...", options.Name);
 
-            command.Up();
+                await command.UpAsync(cancellationToken);
 
-            logger.LogInformation("Command '{0}' successfully applied.", options.Name);
+                logger.LogInformation("Command '{0}' successfully applied.", options.Name);
+                return 0;
+            }
+            catch (OperationCanceledException)
+            {
+                if (logger != null)
+                    logger.LogError("The operation was aborted.");
+
+                return 1;
+            }
         }
 
-        private static void Revert(AssemblyCommandOptions options, IHost host)
+        private static async Task<int> Revert(AssemblyCommandOptions options, IHost host, CancellationToken cancellationToken)
         {
-            var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
+            ILogger logger = null;
+            try
+            {
+                var commandAndLogger = GetCommand<IMigrationCommand>(options, host);
 
-            if (commandAndLogger.Item1 == null)
-                return;
+                if (commandAndLogger.Item1 == null)
+                    throw new ArgumentException("Unable to retrieve the expected command.");
 
-            var logger = commandAndLogger.Item2;
-            var command = commandAndLogger.Item1;
+                logger = commandAndLogger.Item2;
+                var command = commandAndLogger.Item1;
 
-            logger.LogInformation("Reverting command '{0}'...", options.Name);
+                logger.LogInformation("Reverting command '{0}'...", options.Name);
 
-            command.Down();
+                await command.DownAsync(cancellationToken);
 
-            logger.LogInformation("Command '{0}' successfully revert.", options.Name);
+                logger.LogInformation("Command '{0}' successfully revert.", options.Name);
+                return 0;
+            }
+            catch (OperationCanceledException)
+            {
+                if (logger != null)
+                    logger.LogError("The operation was aborted.");
+
+                return 1;
+            }
         }
     }
 }

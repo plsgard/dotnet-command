@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace System.Command.Commands
 {
     /// <summary>
@@ -8,6 +11,6 @@ namespace System.Command.Commands
         /// <summary>
         /// The operation called when the command is executed.
         /// </summary>
-        void Execute();
+        Task ExecuteAsync(CancellationToken cancellationToken);
     }
 }

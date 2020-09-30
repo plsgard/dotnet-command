@@ -1,4 +1,6 @@
-﻿using System.Command.Commands;
+﻿using System.Threading;
+using System.Command.Commands;
+using System.Threading.Tasks;
 
 namespace System.Command.Fake.Commands
 {
@@ -6,7 +8,7 @@ namespace System.Command.Fake.Commands
     {
         public string Name { get; }
 
-        public void Execute()
+        public Task ExecuteAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

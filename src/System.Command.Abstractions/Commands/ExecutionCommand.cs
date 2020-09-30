@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace System.Command.Commands
 {
     /// <inheritdoc />
@@ -8,6 +11,6 @@ namespace System.Command.Commands
         }
 
         /// <inheritdoc />
-        public abstract void Execute();
+        public abstract Task ExecuteAsync(CancellationToken cancellationToken);
     }
 }

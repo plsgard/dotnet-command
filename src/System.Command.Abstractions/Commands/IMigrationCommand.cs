@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace System.Command.Commands
 {
     /// <summary>
@@ -9,11 +12,11 @@ namespace System.Command.Commands
         /// <summary>
         /// The operation called when a migration command is applied.
         /// </summary>
-        void Up();
+        Task UpAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// The operation called when a migration command is reverted.
         /// </summary>
-        void Down();
+        Task DownAsync(CancellationToken cancellationToken);
     }
 }
