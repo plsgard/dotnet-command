@@ -15,7 +15,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>dotnet-cmd</ToolCommandName>
     <PackageId>plsgd-dotnet-command</PackageId>
-    <Version>0.1.2-alpha</Version>
+    <Version>0.2.0-alpha</Version>
     <Title>Dotnet Command</Title>
     <Description>A .NET Core global tool to call user-defined C# command to execute some operations through .NET CLI.</Description>
     <PackageTags>dotnet-core,tool,command,c#,migration,.net core</PackageTags>

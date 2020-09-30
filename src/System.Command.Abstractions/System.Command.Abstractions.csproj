@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>Plsgd.System.Command.Abstractions</PackageId>
-    <Version>0.1.2-alpha</Version>
+    <Version>0.2.0-alpha</Version>
     <Title>System Command Abstractions</Title>
     <Description>Abstractions of user-defined C# command, used for the dotnet-command tool.</Description>
     <PackageTags>dotnet-core,command,c#,migration,.net core</PackageTags>
